@@ -1,0 +1,41 @@
+# Fake News Detection - Beginner Project
+
+from sklearn.feature_extraction.text import CountVectorizer
+from sklearn.naive_bayes import MultinomialNB
+
+# Sample dataset
+news_data = [
+    "The government announced a new education policy",
+    "Scientists discovered water on Mars",
+    "Celebrity claims aliens built the pyramids",
+    "Drinking salt water cures all diseases",
+    "New AI tool improves healthcare diagnosis",
+    "Earth is flat and proven by secret documents"
+]
+
+# Labels: 1 = Real, 0 = Fake
+labels = [1, 1, 0, 0, 1, 0]
+
+# Convert text to numerical data
+vectorizer = CountVectorizer()
+X = vectorizer.fit_transform(news_data)
+
+# Train the model
+model = MultinomialNB()
+model.fit(X, labels)
+
+# Test input
+test_news = [
+    "Aliens are living among humans",
+    "New technology improves medical treatment"
+]
+
+test_vector = vectorizer.transform(test_news)
+predictions = model.predict(test_vector)
+
+# Output
+for news, result in zip(test_news, predictions):
+    if result == 1:
+        print(f"REAL NEWS: {news}")
+    else:
+        print(f"FAKE NEWS: {news}")
